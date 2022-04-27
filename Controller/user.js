@@ -51,7 +51,6 @@ exports.login = (req, res, next) => {
                     res.json({token: jwtToken, success: true, message: 'Successfully logged In'})
                 }
                 else{
-
                     return res.status(401).json({success: false, message: 'Password does not match'});
                 }
             })
