@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var email = document.getElementById('email').value;
         var contact = document.getElementById('contact').value;
         var password = document.getElementById('password').value;
+
+        if(name == "" || email == "" || contact =="" || password ==""){
+            alert("Invalid Input");
+            window.location.href = "signup.html";
+        }
         e.preventDefault();
 
         const obj = {
@@ -17,11 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => {
                 console.log(res);
                 alert(res.data.message);
-                window.location.href = "signup.html";
+                window.location.href = "./login.html";
             })
             .catch(err => {
-                console.log(err);
+                console.log("-----" , err);
+                alert("User Already Exists, Please Login");
             })
-
     })
 });
