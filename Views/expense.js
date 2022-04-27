@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('token');
         axios.post('http://localhost:3000/user/addexpense', obj, { headers: {"Authorization" : token} })
             .then(res => {
-                console.log(res);
+
                 alert('Added');
+                document.getElementById('money').value="";
+                document.getElementById('description').value="";
             })
             .catch(err => {
                 console.log(err);
