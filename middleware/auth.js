@@ -6,11 +6,13 @@ const authenticate = (req, res, next) => {
     try {
         const token = req.header('authorization');
 
-        const userid = Number(jwt.verify(token, "secretkey"));
+        const userid = Number(jwt.verify(token, process.env.TOKEN_SECRET));
 
         User.findByPk(userid).then(user => {
 
             req.user = user;
+
+            console.log('-------------------- Authentication Done ----------------------');
 
             next();
         })
@@ -22,6 +24,8 @@ const authenticate = (req, res, next) => {
       }
 
 }
+
+
 
 module.exports = {
     authenticate

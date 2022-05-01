@@ -10,9 +10,9 @@ exports.addExpense = (req, res) => {
         description: description,
         category: category
     }).then(expense => {
-        return res.status(201).json({expense, success: true})
+        return res.status(201).json({expense, success: true, message: 'Expense Added successfully to DB'})
     }).catch(err => {
-        return res.status(403).json({err, success:false});
+        return res.status(403).json({err, success:false , message: 'Error Occured while adding to DB'});
     })
 }
 

@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         axios.post('http://localhost:3000/user/login', obj)
             .then(res => {
                 localStorage.setItem("token", res.data.token);
+                console.log('bhag------------------' , res.data.user , '----------------------------');
+                localStorage.setItem('userDetails', JSON.stringify(res.data.user))
                 alert(res.data.message);
                 window.location.href = "./expense.html";
             })

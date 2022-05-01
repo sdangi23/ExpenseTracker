@@ -13,5 +13,6 @@ router.post('/addexpense', authenticateMiddleware.authenticate, expenseControlle
 router.get('/getexpenses', authenticateMiddleware.authenticate, expenseController.getexpenses);
 router.delete('/deleteexpense/:expenseid', authenticateMiddleware.authenticate, expenseController.deleteexpense);
 
+router.get('/checkPremium', authenticateMiddleware.authenticate , userController.checkPremium);
 
 module.exports = router;

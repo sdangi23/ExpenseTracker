@@ -1,4 +1,5 @@
 const User = require('../Models/users');
+const Order = require('../Models/order');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -37,18 +38,17 @@ exports.login = (req, res, next) => {
     
     const email= req.body.email;
     const password = req.body.password;
-    User.findAll({where: {email:email}}).then(result => {
-        if(result[0] != undefined){
-            bcrypt.compare(password, result[0].password, (err, response) => {
+    User.findAll({where: {email:email}}).then(user => {
+        if(user[0] != undefined){
+            bcrypt.compare(password, user[0].password, (err, response) => {
                 if(err){
-                    console.log(result[0].name);
                     return res.json({success: false, message: 'Something went wrong'});
                 }
                 if(response){
-                    console.log("--------------" , result[0].id , "------------------");
-                    const jwtToken = generateAccessToken(result[0].id);
 
-                    res.json({token: jwtToken, success: true, message: 'Successfully logged In'})
+                    const jwtToken = generateAccessToken(user[0].id);
+
+                    res.json({token: jwtToken, success: true, message: 'Successfully logged In' , user: user})
                 }
                 else{
                     return res.status(401).json({success: false, message: 'Password does not match'});
@@ -63,4 +63,19 @@ exports.login = (req, res, next) => {
         console.log(err);
     })
     
+}
+
+exports.checkPremium = async (req, res, next) => {
+
+        const id = req.user.id;
+        Order.findAll( {where: {userId: id}} )
+        .then( user => {
+            if(user[0] != undefined){
+                return res.status(200).json({ message: "premium user" });
+            }else{
+                return res.status(404).json( {message: 'This User is Not a Premium Member yet'});
+            }
+        }).catch (err => {
+        console.log(err);
+         });
 }
