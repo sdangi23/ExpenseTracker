@@ -1,4 +1,6 @@
 const Expense = require('../Models/expense');
+const UserServices = require('../Services/UserServices');
+const S3Services = require('../Services/S3Services');
 const AWS = require('aws-sdk');
 
 exports.addExpense = (req, res) => {
@@ -36,40 +38,41 @@ exports.deleteexpense = (req, res) => {
 }
 
 exports.download = async (req,res) => {
-    const expenses =  await req.user.getExpenses();
+    //const expenses =  await req.user.getExpenses();
+    const expenses = await UserServices.getExpenses(req);
     const SringifyExpense = JSON.stringify(expenses);
     const filename=`Expense${req.user.dataValues.id}/${new Date()}.txt`
-    const fileURL = await uploadtoS3(SringifyExpense, filename);
+    const fileURL = await S3Services.uploadtoS3(SringifyExpense, filename);
     res.status(200).json({fileURL:fileURL, success:true, message:'Download is Ready'});
 }
 
-function uploadtoS3(data, filename){
+// function uploadtoS3(data, filename){
    
-    let s3bucket = new AWS.S3({
-        accessKeyId:process.env.AWS_ACCESS_KEY,
-        secretAccessKey:process.env.AWS_SECRET_KEY
-    });
+//     let s3bucket = new AWS.S3({
+//         accessKeyId:process.env.AWS_ACCESS_KEY,
+//         secretAccessKey:process.env.AWS_SECRET_KEY
+//     });
 
 
-        var params = {
-            Bucket:'expensetracker23',
-            Key:filename,
-            Body:data,
-            ACL:'public-read'
-        }
+//         var params = {
+//             Bucket:'expensetracker23',
+//             Key:filename,
+//             Body:data,
+//             ACL:'public-read'
+//         }
 
-        return new Promise( (resolve, reject) => {
+//         return new Promise( (resolve, reject) => {
 
-            s3bucket.upload(params, (err, s3response) => {
-                if(err){
-                    console.log('Something went wrong',err);
-                    reject(err);
-                }else{
-                    resolve(s3response.Location);
-                }
-            })
+//             s3bucket.upload(params, (err, s3response) => {
+//                 if(err){
+//                     console.log('Something went wrong',err);
+//                     reject(err);
+//                 }else{
+//                     resolve(s3response.Location);
+//                 }
+//             })
 
-        })
+//         })
         
 
-}
+// }
