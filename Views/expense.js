@@ -53,6 +53,8 @@ window.addEventListener('load', ()=> {
 });
 
 function toggleUi() {
+
+        document.getElementById('downloadexpense').disabled = false;
     
         const sectionArray = document.getElementsByClassName('vh-100 bg-image');
 
