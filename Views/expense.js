@@ -252,7 +252,9 @@ pageevent.addEventListener("click",(e)=>{
         pagenation.innerHTML=""
         expensecontainer.innerHTML="";
 
-    axios.get(`http://localhost:3000/user/getexpenses/?page=${PageId}`,{headers:{"Authorization":token}})
+
+        const savedrow = localStorage.getItem('rows');
+    axios.get(`http://localhost:3000/user/getexpenses/?page=${PageId}&row=${savedrow}`,{headers:{"Authorization":token}})
     .then((expenses)=>{
         
         const pages=expenses.data.obj

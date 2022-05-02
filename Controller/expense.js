@@ -22,11 +22,7 @@ exports.addExpense = (req, res) => {
 
 exports.getexpenses = async (req, res, next) => {
 
-    const items_perpage = 2;
-    // if(req.query.row != undefined){
-    //     items_perpage = req.query.row;
-    // }
-    
+    const items_perpage = Number(req.query.row);    
     
     const page= req.query.page || 1 ;
     let totalitems=0
