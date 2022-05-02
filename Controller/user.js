@@ -116,3 +116,7 @@ exports.getUserExpenses = async (req, res, next) => {
         console.log('err >> ', err);
     }
 }
+
+exports.getPassword = (req, res, next) => {
+    return res.status(200).json( {success: true , message: 'Nahi Bataunga Password'});
+}

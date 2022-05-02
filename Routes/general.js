@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/getUserExpenses', userController.getUserExpenses);
 
-
+router.post('/password/forgotpassword' , userController.getPassword);
 
 module.exports = router;
