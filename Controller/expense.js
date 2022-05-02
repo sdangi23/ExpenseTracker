@@ -3,6 +3,7 @@ const UserServices = require('../Services/UserServices');
 const S3Services = require('../Services/S3Services');
 const AWS = require('aws-sdk');
 
+
 exports.addExpense = (req, res) => {
     const expenseAmount = req.body.expenseAmount;
     const description = req.body.description;
@@ -19,12 +20,46 @@ exports.addExpense = (req, res) => {
     })
 }
 
-exports.getexpenses = (req, res) => {
-    req.user.getExpenses().then(expense => {
-        return res.status(200).json({expense, success:true});
-    }).catch(err => {
-        return res.status(402).json({error:err, success:false});
-    })
+exports.getexpenses = async (req, res, next) => {
+
+    const items_perpage = 2;
+    // if(req.query.row != undefined){
+    //     items_perpage = req.query.row;
+    // }
+    
+    
+    const page= req.query.page || 1 ;
+    let totalitems=0
+    const userId=req.user.id;
+    const expcount=await Expense.count({where:{UserId:userId}})
+    const hasnextpage=items_perpage*page<expcount;
+    const haspreviouspage=page>1;
+    const nextpage=Number(page)+1;
+    const previouspage=Number(page)-1;
+    const lastpage=Math.ceil(expcount/items_perpage)
+    let obj={
+      currentpage:Number(req.query.page),
+      hasnextpage:hasnextpage,
+      haspreviouspage:haspreviouspage,
+      nextpage:nextpage,
+      previouspage:previouspage,
+      lastpage:lastpage
+  }
+
+
+
+req.user.getExpenses({offset:(page-1)*items_perpage,limit:items_perpage}).then((expenses)=>{
+        res.json({expenses,success:true,obj})
+
+    }).catch(err=>console.log(err))
+
+
+
+    // req.user.getExpenses().then(expense => {
+    //     return res.status(200).json({expense, success:true});
+    // }).catch(err => {
+    //     return res.status(402).json({error:err, success:false});
+    // })
 }
 
 exports.deleteexpense = (req, res) => {
