@@ -14,5 +14,6 @@ router.get('/getexpenses', authenticateMiddleware.authenticate, expenseControlle
 router.delete('/deleteexpense/:expenseid', authenticateMiddleware.authenticate, expenseController.deleteexpense);
 
 router.get('/checkPremium', authenticateMiddleware.authenticate , userController.checkPremium);
+router.get('/download', authenticateMiddleware.authenticate, expenseController.download);
 
 module.exports = router;
