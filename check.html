@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="homepage.css" />
+    <script src="homepage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <title>HomePage</title>
+</head>
+
+<body>
+    <h2>Expense Tracker</h2>
+    <div class="container">
+        <h3>Add new transaction</h3>
+        <form action="" id="form" onsubmit="getExpenseDetails(event)">
+            <div class="form-control">
+                <label for="text">Description</label>
+                <input name="description" type="text" id="text" placeholder="Please enter a description" />
+            </div>
+            <div class="form-control">
+                <label for="amount">Amount <br />
+                    <!-- <small>Enter in negative for expense and positive for
+                        income.</small> -->
+                </label>
+                <input name="amount" type="number" id="amount" placeholder="Please enter the amount" />
+            </div>
+            <div class="form-control">
+                <label for="amount">Category <br />
+                    <!-- <small>If expense, state category.</small> -->
+                </label>
+                <input list="category" name="category" placeholder="Choose category" />
+                <datalist id="category">
+                    <option value="Food"></option>
+                    <option value="Travel"></option>
+                    <option value="Entertainment"></option>
+                    <option value="Medical Bills"></option>
+                    <option value="Household Bills"></option>
+                    <option value="Accomodation"></option>
+                    <option value="Clothing"></option>
+                    <option value="Others"></option>
+                </datalist>
+            </div>
+            <button id="addTransAction-btn" type="submit class" class="btn" >Add transaction</button>
+        </form>
+        <h3>History</h3>
+        <ul id="list" class="list">
+            <!-- <li class="minus">cash<span>-$400</span><button class="delete-btn">x</button></li> -->
+        </ul>
+        <button id="rzp-button" type="button" onclick="getPremiumMemberShip()">Buy Premium</button>
+        <button id="toggle-btn" type="button" onclick="toggleMode()">DarkMode</button>
+        <button id="toggle-btn" type="button" onclick="showExpenses()">LeaderBoard</button>
+
+    </div>
+</body>
+
+</html>

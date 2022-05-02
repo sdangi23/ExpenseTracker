@@ -62,6 +62,13 @@ function toggleUi() {
 
         const heading = document.getElementsByClassName('text-uppercase text-center mb-5')[0];
         heading.innerText = "Expense Tracker - Premium";
+
+        document.getElementById('rzp-btn').remove();
+
+        const btns = document.getElementById('btns');
+        const x = document.createElement("BUTTON");
+        x.innerHTML = `<button type="button" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" id="leaderboard-btn"><a href="./leaderboard.html" <b> Show LeaderBoard </b> </a></button>`;
+        btns.appendChild(x);
 }
 
 function addexpense(expense){

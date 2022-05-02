@@ -1,4 +1,5 @@
 const User = require('../Models/users');
+const Expense = require('../Models/expense');
 const Order = require('../Models/order');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -78,4 +79,40 @@ exports.checkPremium = async (req, res, next) => {
         }).catch (err => {
         console.log(err);
          });
+}
+
+exports.getUserExpenses = async (req, res, next) => {
+
+    try {
+        const dbusers = await User.findAll();
+
+        var finalarr=[];
+        let i=0;
+
+        await Promise.all(
+
+            dbusers.map(async (user) => {
+                
+                let eachUserArr = [];
+
+                try {
+                    console.log("----------------inside 2nd try block...")
+
+                    const dbexpenses = await user.getExpenses();
+                    dbexpenses.forEach((expense) => {
+                        eachUserArr.push(expense);
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+                finalarr.push(eachUserArr);
+            }
+            
+            ));
+
+        res.status(200).json({ finalarr });
+    }
+    catch (err) {
+        console.log('err >> ', err);
+    }
 }
